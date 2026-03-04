@@ -3,99 +3,119 @@
 <head>
     <title>Diya's Routine Manager</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #f6f8ff, #eef1ff);
-            margin: 0;
-            padding: 20px;
-        }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-        h1 {
-            text-align: center;
-            color: #444;
-        }
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #fdfbfb, #ebedff);
+    color: #333;
+}
 
-        .container {
-            max-width: 800px;
-            margin: auto;
-        }
+h1 {
+    text-align: center;
+    margin: 30px 0;
+    font-weight: 600;
+    font-size: 28px;
+}
 
-        .card {
-            background: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 15px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-        }
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+}
 
-        h2 {
-            margin-top: 0;
-            color: #666;
-        }
+.card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(120, 130, 255, 0.15);
+    transition: 0.3s ease;
+}
 
-        button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background: #6c8ef5;
-            color: white;
-            margin-top: 10px;
-        }
+.card:hover {
+    transform: translateY(-5px);
+}
 
-        button:hover {
-            background: #5674d6;
-        }
+h2 {
+    margin-top: 0;
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
 
-        input {
-            padding: 8px;
-            width: 70%;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
+button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #8f9bff, #6c8ef5);
+    color: white;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
 
-        ul {
-            list-style: none;
-            padding: 0;
-        }
+button:hover {
+    transform: scale(1.05);
+}
 
-        li {
-            margin: 8px 0;
-            cursor: pointer;
-        }
+.reset-btn {
+    background: linear-gradient(135deg, #ff8a8a, #ff6b6b);
+}
 
-        .done {
-            text-decoration: line-through;
-            color: gray;
-        }
+input {
+    padding: 10px;
+    width: 65%;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+}
 
-        .progress-bar {
-            background: #eee;
-            border-radius: 10px;
-            height: 15px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
+ul {
+    list-style: none;
+    padding: 0;
+}
 
-        .progress {
-            height: 100%;
-            background: #6c8ef5;
-            width: 0%;
-            transition: 0.3s;
-        }
+li {
+    padding: 8px 0;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-        .schedule-item {
-            padding: 6px 0;
-        }
+li:hover {
+    color: #6c8ef5;
+}
 
-        .reset-btn {
-            background: #ff6b6b;
-        }
+.done {
+    text-decoration: line-through;
+    color: #aaa;
+}
 
-        .reset-btn:hover {
-            background: #e25555;
-        }
-    </style>
+.progress-bar {
+    background: #f1f1f1;
+    border-radius: 15px;
+    height: 14px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(135deg, #8f9bff, #6c8ef5);
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+.schedule-item {
+    padding: 6px 0;
+    font-size: 14px;
+    opacity: 0.85;
+}
+</style>
 </head>
 
 <body>
