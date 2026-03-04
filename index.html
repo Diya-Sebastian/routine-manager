@@ -1,261 +1,266 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Diya's Routine Manager</title>
-    <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diya Routine Manager</title>
 
-body {
-    font-family: 'Poppins', sans-serif;
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #fdfbfb, #ebedff);
-    color: #333;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-h1 {
-    text-align: center;
-    margin: 30px 0;
+body {
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffeef8, #e8f0ff);
+}
+
+.sidebar {
+    width: 230px;
+    background: #ffffff;
+    padding: 30px 20px;
+    box-shadow: 5px 0 20px rgba(0,0,0,0.05);
+}
+
+.sidebar h2 {
+    margin-bottom: 30px;
     font-weight: 600;
-    font-size: 28px;
+    color: #8f7cff;
 }
 
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 25px;
+.nav-item {
+    margin-bottom: 15px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.nav-item:hover {
+    background: #f3f0ff;
+}
+
+.active {
+    background: #e8e4ff;
+}
+
+.main {
+    flex: 1;
+    padding: 40px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
 }
 
 .card {
-    background: #ffffff;
+    background: white;
     padding: 25px;
     border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(120, 130, 255, 0.15);
-    transition: 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-h2 {
-    margin-top: 0;
-    font-weight: 500;
-    font-size: 18px;
-    margin-bottom: 15px;
+    box-shadow: 0 15px 35px rgba(150,150,255,0.15);
+    margin-bottom: 25px;
 }
 
 button {
-    padding: 10px 16px;
+    padding: 8px 14px;
     border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    background: linear-gradient(135deg, #8f9bff, #6c8ef5);
+    border-radius: 10px;
+    background: #8f7cff;
     color: white;
-    font-weight: 500;
-    transition: 0.3s ease;
-}
-
-button:hover {
-    transform: scale(1.05);
-}
-
-.reset-btn {
-    background: linear-gradient(135deg, #ff8a8a, #ff6b6b);
+    cursor: pointer;
 }
 
 input {
-    padding: 10px;
-    width: 65%;
-    border-radius: 12px;
+    padding: 8px;
+    border-radius: 10px;
     border: 1px solid #ddd;
     margin-right: 10px;
 }
 
 ul {
     list-style: none;
-    padding: 0;
+    margin-top: 15px;
 }
 
 li {
     padding: 8px 0;
     cursor: pointer;
-    transition: 0.2s;
-}
-
-li:hover {
-    color: #6c8ef5;
 }
 
 .done {
     text-decoration: line-through;
-    color: #aaa;
+    opacity: 0.6;
 }
 
 .progress-bar {
-    background: #f1f1f1;
-    border-radius: 15px;
-    height: 14px;
+    background: #eee;
+    height: 12px;
+    border-radius: 10px;
     margin-top: 15px;
-    overflow: hidden;
 }
 
 .progress {
     height: 100%;
-    background: linear-gradient(135deg, #8f9bff, #6c8ef5);
     width: 0%;
-    transition: width 0.4s ease;
+    background: #8f7cff;
+    border-radius: 10px;
+    transition: 0.4s;
 }
 
-.schedule-item {
-    padding: 6px 0;
-    font-size: 14px;
-    opacity: 0.85;
+.dark-mode {
+    background: #2c2c3c;
+    color: white;
+}
+
+.dark-mode .card,
+.dark-mode .sidebar {
+    background: #3a3a4d;
+    color: white;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🌸 <span id="username">My</span> Routine Manager</h1>
+<div class="sidebar">
+    <h2>🌸 Diya</h2>
+    <div class="nav-item active" onclick="showSection('dashboard', this)">Dashboard</div>
+    <div class="nav-item" onclick="showSection('tasks', this)">Tasks</div>
+    <div class="nav-item" onclick="showSection('habits', this)">Habits</div>
+    <div class="nav-item" onclick="showSection('stats', this)">Stats</div>
+    <div class="nav-item" onclick="toggleDarkMode()">Toggle Dark</div>
+</div>
 
-<div class="container">
+<div class="main">
 
-    <!-- Personalization -->
-    <div class="card">
-        <h2>👤 Personalize</h2>
-        <input type="text" id="nameInput" placeholder="Enter your name">
-        <button onclick="saveName()">Save Name</button>
-    </div>
-
-    <!-- Daily Schedule -->
-    <div class="card">
-        <h2>🗓 Daily Schedule</h2>
-        <div class="schedule-item">🌅 7:00 – Wake Up</div>
-        <div class="schedule-item">🎓 8:50–4:10 – Classes</div>
-        <div class="schedule-item">📚 6:00–7:30 – Assignments</div>
-        <div class="schedule-item">💻 8:45–9:45 – Frontend / Crochet</div>
-        <div class="schedule-item">🌙 10:30 – Sleep</div>
-    </div>
-
-    <!-- Assignments -->
-    <div class="card">
-        <h2>📚 Assignments</h2>
-        <input type="text" id="assignmentInput" placeholder="Add assignment...">
-        <button onclick="addAssignment()">Add</button>
-        <ul id="assignmentList"></ul>
-    </div>
-
-    <!-- Frontend Tracker -->
-    <div class="card">
-        <h2>💻 Frontend (Target: 4/week)</h2>
-        <p><span id="frontendCount">0</span> / 4</p>
-        <button onclick="incrementFrontend()">Completed Session</button>
-        <div class="progress-bar">
-            <div class="progress" id="frontendProgress"></div>
+    <div id="dashboard" class="section active">
+        <div class="card">
+            <h3>Welcome back 🌷</h3>
+            <p>Stay consistent. Small progress daily.</p>
         </div>
     </div>
 
-    <!-- Crochet Tracker -->
-    <div class="card">
-        <h2>🧶 Crochet Sessions</h2>
-        <p><span id="crochetCount">0</span></p>
-        <button onclick="incrementCrochet()">Completed Session</button>
-        <div class="progress-bar">
-            <div class="progress" id="crochetProgress"></div>
+    <div id="tasks" class="section">
+        <div class="card">
+            <h3>Task Manager</h3>
+            <input type="text" id="taskInput" placeholder="Add new task">
+            <button onclick="addTask()">Add</button>
+            <ul id="taskList"></ul>
+            <div class="progress-bar">
+                <div class="progress" id="taskProgress"></div>
+            </div>
         </div>
     </div>
 
-    <!-- Weekly Reset -->
-    <div class="card">
-        <h2>🔄 Weekly Reset</h2>
-        <button class="reset-btn" onclick="weeklyReset()">Reset Week</button>
+    <div id="habits" class="section">
+        <div class="card">
+            <h3>Habit Tracker</h3>
+            <input type="text" id="habitInput" placeholder="Add new habit">
+            <button onclick="addHabit()">Add</button>
+            <ul id="habitList"></ul>
+        </div>
+    </div>
+
+    <div id="stats" class="section">
+        <div class="card">
+            <h3>Weekly Progress</h3>
+            <p>Tasks Completed: <span id="statsCount">0</span></p>
+        </div>
     </div>
 
 </div>
 
 <script>
-    let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
-    let frontendCount = parseInt(localStorage.getItem("frontendCount")) || 0;
-    let crochetCount = parseInt(localStorage.getItem("crochetCount")) || 0;
-    let savedName = localStorage.getItem("username");
 
-    function saveData() {
-        localStorage.setItem("assignments", JSON.stringify(assignments));
-        localStorage.setItem("frontendCount", frontendCount);
-        localStorage.setItem("crochetCount", crochetCount);
-    }
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let habits = JSON.parse(localStorage.getItem("habits")) || [];
 
-    function saveName() {
-        const name = document.getElementById("nameInput").value;
-        localStorage.setItem("username", name);
-        document.getElementById("username").textContent = name + "'s";
-    }
+function showSection(id, element) {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
 
-    if (savedName) {
-        document.getElementById("username").textContent = savedName + "'s";
-    }
+    document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+    element.classList.add("active");
+}
 
-    function renderAssignments() {
-        const list = document.getElementById("assignmentList");
-        list.innerHTML = "";
-        assignments.forEach((item, index) => {
-            const li = document.createElement("li");
-            li.textContent = item.text;
-            if (item.done) li.classList.add("done");
-            li.onclick = () => {
-                assignments[index].done = !assignments[index].done;
-                saveData();
-                renderAssignments();
-            };
-            list.appendChild(li);
-        });
-    }
+function addTask() {
+    const input = document.getElementById("taskInput");
+    if(input.value === "") return;
+    tasks.push({text: input.value, done:false});
+    input.value="";
+    saveTasks();
+    renderTasks();
+}
 
-    function addAssignment() {
-        const input = document.getElementById("assignmentInput");
-        if (input.value.trim() === "") return;
-        assignments.push({ text: input.value, done: false });
-        input.value = "";
-        saveData();
-        renderAssignments();
-    }
+function renderTasks() {
+    const list = document.getElementById("taskList");
+    list.innerHTML="";
+    let completed=0;
 
-    function incrementFrontend() {
-        if (frontendCount < 4) frontendCount++;
-        updateFrontend();
-    }
+    tasks.forEach((task,index)=>{
+        const li=document.createElement("li");
+        li.textContent=task.text;
+        if(task.done){
+            li.classList.add("done");
+            completed++;
+        }
+        li.onclick=()=>{
+            tasks[index].done=!tasks[index].done;
+            saveTasks();
+            renderTasks();
+        };
+        list.appendChild(li);
+    });
 
-    function incrementCrochet() {
-        crochetCount++;
-        updateCrochet();
-    }
+    const percent = tasks.length ? (completed/tasks.length)*100 : 0;
+    document.getElementById("taskProgress").style.width = percent + "%";
+    document.getElementById("statsCount").textContent = completed;
+}
 
-    function updateFrontend() {
-        document.getElementById("frontendCount").textContent = frontendCount;
-        document.getElementById("frontendProgress").style.width = (frontendCount / 4) * 100 + "%";
-        saveData();
-    }
+function saveTasks(){
+    localStorage.setItem("tasks",JSON.stringify(tasks));
+}
 
-    function updateCrochet() {
-        document.getElementById("crochetCount").textContent = crochetCount;
-        document.getElementById("crochetProgress").style.width = (crochetCount / 7) * 100 + "%";
-        saveData();
-    }
+function addHabit(){
+    const input=document.getElementById("habitInput");
+    if(input.value==="") return;
+    habits.push(input.value);
+    input.value="";
+    saveHabits();
+    renderHabits();
+}
 
-    function weeklyReset() {
-        frontendCount = 0;
-        crochetCount = 0;
-        updateFrontend();
-        updateCrochet();
-    }
+function renderHabits(){
+    const list=document.getElementById("habitList");
+    list.innerHTML="";
+    habits.forEach(h=>{
+        const li=document.createElement("li");
+        li.textContent=h;
+        list.appendChild(li);
+    });
+}
 
-    updateFrontend();
-    updateCrochet();
-    renderAssignments();
+function saveHabits(){
+    localStorage.setItem("habits",JSON.stringify(habits));
+}
+
+function toggleDarkMode(){
+    document.body.classList.toggle("dark-mode");
+}
+
+renderTasks();
+renderHabits();
+
 </script>
 
 </body>
