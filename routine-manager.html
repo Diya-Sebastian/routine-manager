@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diya's Routine Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f6f8ff, #eef1ff);
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #666;
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #6c8ef5;
+            color: white;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #5674d6;
+        }
+
+        input {
+            padding: 8px;
+            width: 70%;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 8px 0;
+            cursor: pointer;
+        }
+
+        .done {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .progress-bar {
+            background: #eee;
+            border-radius: 10px;
+            height: 15px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #6c8ef5;
+            width: 0%;
+            transition: 0.3s;
+        }
+
+        .schedule-item {
+            padding: 6px 0;
+        }
+
+        .reset-btn {
+            background: #ff6b6b;
+        }
+
+        .reset-btn:hover {
+            background: #e25555;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🌸 <span id="username">My</span> Routine Manager</h1>
+
+<div class="container">
+
+    <!-- Personalization -->
+    <div class="card">
+        <h2>👤 Personalize</h2>
+        <input type="text" id="nameInput" placeholder="Enter your name">
+        <button onclick="saveName()">Save Name</button>
+    </div>
+
+    <!-- Daily Schedule -->
+    <div class="card">
+        <h2>🗓 Daily Schedule</h2>
+        <div class="schedule-item">🌅 7:00 – Wake Up</div>
+        <div class="schedule-item">🎓 8:50–4:10 – Classes</div>
+        <div class="schedule-item">📚 6:00–7:30 – Assignments</div>
+        <div class="schedule-item">💻 8:45–9:45 – Frontend / Crochet</div>
+        <div class="schedule-item">🌙 10:30 – Sleep</div>
+    </div>
+
+    <!-- Assignments -->
+    <div class="card">
+        <h2>📚 Assignments</h2>
+        <input type="text" id="assignmentInput" placeholder="Add assignment...">
+        <button onclick="addAssignment()">Add</button>
+        <ul id="assignmentList"></ul>
+    </div>
+
+    <!-- Frontend Tracker -->
+    <div class="card">
+        <h2>💻 Frontend (Target: 4/week)</h2>
+        <p><span id="frontendCount">0</span> / 4</p>
+        <button onclick="incrementFrontend()">Completed Session</button>
+        <div class="progress-bar">
+            <div class="progress" id="frontendProgress"></div>
+        </div>
+    </div>
+
+    <!-- Crochet Tracker -->
+    <div class="card">
+        <h2>🧶 Crochet Sessions</h2>
+        <p><span id="crochetCount">0</span></p>
+        <button onclick="incrementCrochet()">Completed Session</button>
+        <div class="progress-bar">
+            <div class="progress" id="crochetProgress"></div>
+        </div>
+    </div>
+
+    <!-- Weekly Reset -->
+    <div class="card">
+        <h2>🔄 Weekly Reset</h2>
+        <button class="reset-btn" onclick="weeklyReset()">Reset Week</button>
+    </div>
+
+</div>
+
+<script>
+    let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
+    let frontendCount = parseInt(localStorage.getItem("frontendCount")) || 0;
+    let crochetCount = parseInt(localStorage.getItem("crochetCount")) || 0;
+    let savedName = localStorage.getItem("username");
+
+    function saveData() {
+        localStorage.setItem("assignments", JSON.stringify(assignments));
+        localStorage.setItem("frontendCount", frontendCount);
+        localStorage.setItem("crochetCount", crochetCount);
+    }
+
+    function saveName() {
+        const name = document.getElementById("nameInput").value;
+        localStorage.setItem("username", name);
+        document.getElementById("username").textContent = name + "'s";
+    }
+
+    if (savedName) {
+        document.getElementById("username").textContent = savedName + "'s";
+    }
+
+    function renderAssignments() {
+        const list = document.getElementById("assignmentList");
+        list.innerHTML = "";
+        assignments.forEach((item, index) => {
+            const li = document.createElement("li");
+            li.textContent = item.text;
+            if (item.done) li.classList.add("done");
+            li.onclick = () => {
+                assignments[index].done = !assignments[index].done;
+                saveData();
+                renderAssignments();
+            };
+            list.appendChild(li);
+        });
+    }
+
+    function addAssignment() {
+        const input = document.getElementById("assignmentInput");
+        if (input.value.trim() === "") return;
+        assignments.push({ text: input.value, done: false });
+        input.value = "";
+        saveData();
+        renderAssignments();
+    }
+
+    function incrementFrontend() {
+        if (frontendCount < 4) frontendCount++;
+        updateFrontend();
+    }
+
+    function incrementCrochet() {
+        crochetCount++;
+        updateCrochet();
+    }
+
+    function updateFrontend() {
+        document.getElementById("frontendCount").textContent = frontendCount;
+        document.getElementById("frontendProgress").style.width = (frontendCount / 4) * 100 + "%";
+        saveData();
+    }
+
+    function updateCrochet() {
+        document.getElementById("crochetCount").textContent = crochetCount;
+        document.getElementById("crochetProgress").style.width = (crochetCount / 7) * 100 + "%";
+        saveData();
+    }
+
+    function weeklyReset() {
+        frontendCount = 0;
+        crochetCount = 0;
+        updateFrontend();
+        updateCrochet();
+    }
+
+    updateFrontend();
+    updateCrochet();
+    renderAssignments();
+</script>
+
+</body>
+</html>
