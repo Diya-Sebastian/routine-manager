@@ -1,267 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diya Routine Manager</title>
+    <meta charset="UTF-8">
+    <title>Diya Routine Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-body {
-    display: flex;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #ffeef8, #e8f0ff);
-}
-
-.sidebar {
-    width: 230px;
-    background: #ffffff;
-    padding: 30px 20px;
-    box-shadow: 5px 0 20px rgba(0,0,0,0.05);
-}
-
-.sidebar h2 {
-    margin-bottom: 30px;
-    font-weight: 600;
-    color: #8f7cff;
-}
-
-.nav-item {
-    margin-bottom: 15px;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 10px;
-    transition: 0.3s;
-}
-
-.nav-item:hover {
-    background: #f3f0ff;
-}
-
-.active {
-    background: #e8e4ff;
-}
-
-.main {
-    flex: 1;
-    padding: 40px;
-}
-
-.section {
-    display: none;
-}
-
-.section.active {
-    display: block;
-}
-
-.card {
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(150,150,255,0.15);
-    margin-bottom: 25px;
-}
-
-button {
-    padding: 8px 14px;
-    border: none;
-    border-radius: 10px;
-    background: #8f7cff;
-    color: white;
-    cursor: pointer;
-}
-
-input {
-    padding: 8px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    margin-right: 10px;
-}
-
-ul {
-    list-style: none;
-    margin-top: 15px;
-}
-
-li {
-    padding: 8px 0;
-    cursor: pointer;
-}
-
-.done {
-    text-decoration: line-through;
-    opacity: 0.6;
-}
-
-.progress-bar {
-    background: #eee;
-    height: 12px;
-    border-radius: 10px;
-    margin-top: 15px;
-}
-
-.progress {
-    height: 100%;
-    width: 0%;
-    background: #8f7cff;
-    border-radius: 10px;
-    transition: 0.4s;
-}
-
-.dark-mode {
-    background: #2c2c3c;
-    color: white;
-}
-
-.dark-mode .card,
-.dark-mode .sidebar {
-    background: #3a3a4d;
-    color: white;
-}
-</style>
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="sidebar">
-    <h2>🌸 Diya</h2>
-    <div class="nav-item active" onclick="showSection('dashboard', this)">Dashboard</div>
-    <div class="nav-item" onclick="showSection('tasks', this)">Tasks</div>
-    <div class="nav-item" onclick="showSection('habits', this)">Habits</div>
-    <div class="nav-item" onclick="showSection('stats', this)">Stats</div>
-    <div class="nav-item" onclick="toggleDarkMode()">Toggle Dark</div>
-</div>
+    <div class="app">
 
-<div class="main">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2 class="logo">🌸 Diya</h2>
 
-    <div id="dashboard" class="section active">
-        <div class="card">
-            <h3>Welcome back 🌷</h3>
-            <p>Stay consistent. Small progress daily.</p>
-        </div>
+            <nav>
+                <button class="nav-btn active" data-page="dashboard">Dashboard</button>
+                <button class="nav-btn" data-page="timetable">Timetable</button>
+                <button class="nav-btn" data-page="tasks">Tasks</button>
+                <button class="nav-btn" data-page="assignments">Assignments</button>
+                <button class="nav-btn" data-page="habits">Habits</button>
+                <button class="nav-btn" data-page="focus">Focus</button>
+                <button class="nav-btn" data-page="stats">Stats</button>
+                <button class="nav-btn" id="darkToggle">Toggle Dark</button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+
+            <section id="dashboard" class="page active">
+                <h1>Dashboard</h1>
+                <div class="card">Welcome back 🌷</div>
+            </section>
+
+            <section id="timetable" class="page">
+                <h1>Weekly Timetable</h1>
+                <div class="card">Timetable coming soon...</div>
+            </section>
+
+            <section id="tasks" class="page">
+                <h1>Tasks</h1>
+                <div class="card">Task system coming soon...</div>
+            </section>
+
+            <section id="assignments" class="page">
+                <h1>Assignments</h1>
+                <div class="card">Assignment manager coming soon...</div>
+            </section>
+
+            <section id="habits" class="page">
+                <h1>Habits</h1>
+                <div class="card">Habit tracker coming soon...</div>
+            </section>
+
+            <section id="focus" class="page">
+                <h1>Focus Mode</h1>
+                <div class="card">Pomodoro timer coming soon...</div>
+            </section>
+
+            <section id="stats" class="page">
+                <h1>Analytics</h1>
+                <div class="card">Statistics coming soon...</div>
+            </section>
+
+        </main>
+
     </div>
 
-    <div id="tasks" class="section">
-        <div class="card">
-            <h3>Task Manager</h3>
-            <input type="text" id="taskInput" placeholder="Add new task">
-            <button onclick="addTask()">Add</button>
-            <ul id="taskList"></ul>
-            <div class="progress-bar">
-                <div class="progress" id="taskProgress"></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="habits" class="section">
-        <div class="card">
-            <h3>Habit Tracker</h3>
-            <input type="text" id="habitInput" placeholder="Add new habit">
-            <button onclick="addHabit()">Add</button>
-            <ul id="habitList"></ul>
-        </div>
-    </div>
-
-    <div id="stats" class="section">
-        <div class="card">
-            <h3>Weekly Progress</h3>
-            <p>Tasks Completed: <span id="statsCount">0</span></p>
-        </div>
-    </div>
-
-</div>
-
-<script>
-
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-let habits = JSON.parse(localStorage.getItem("habits")) || [];
-
-function showSection(id, element) {
-    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-
-    document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-    element.classList.add("active");
-}
-
-function addTask() {
-    const input = document.getElementById("taskInput");
-    if(input.value === "") return;
-    tasks.push({text: input.value, done:false});
-    input.value="";
-    saveTasks();
-    renderTasks();
-}
-
-function renderTasks() {
-    const list = document.getElementById("taskList");
-    list.innerHTML="";
-    let completed=0;
-
-    tasks.forEach((task,index)=>{
-        const li=document.createElement("li");
-        li.textContent=task.text;
-        if(task.done){
-            li.classList.add("done");
-            completed++;
-        }
-        li.onclick=()=>{
-            tasks[index].done=!tasks[index].done;
-            saveTasks();
-            renderTasks();
-        };
-        list.appendChild(li);
-    });
-
-    const percent = tasks.length ? (completed/tasks.length)*100 : 0;
-    document.getElementById("taskProgress").style.width = percent + "%";
-    document.getElementById("statsCount").textContent = completed;
-}
-
-function saveTasks(){
-    localStorage.setItem("tasks",JSON.stringify(tasks));
-}
-
-function addHabit(){
-    const input=document.getElementById("habitInput");
-    if(input.value==="") return;
-    habits.push(input.value);
-    input.value="";
-    saveHabits();
-    renderHabits();
-}
-
-function renderHabits(){
-    const list=document.getElementById("habitList");
-    list.innerHTML="";
-    habits.forEach(h=>{
-        const li=document.createElement("li");
-        li.textContent=h;
-        list.appendChild(li);
-    });
-}
-
-function saveHabits(){
-    localStorage.setItem("habits",JSON.stringify(habits));
-}
-
-function toggleDarkMode(){
-    document.body.classList.toggle("dark-mode");
-}
-
-renderTasks();
-renderHabits();
-
-</script>
+    <!-- JS Files -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
 
 </body>
 </html>
